@@ -39,6 +39,9 @@ def word_cloud(selected_user,df):
     temp=df[df['users']!='Group Notification']
     temp=temp[temp['message']!='<Media omitted>\n']
     temp=temp[temp['message']!='null\n']#removes video call and call notifications
+    temp[temp['message']!='This message was deleted\n']
+    temp['message'] = [messages.split("<This message was edited>\n")[0] if "<This message was edited>" in messages else messages for messages in temp['message']]
+
     
     f=open('stop_hinglish.txt','r',encoding="utf-8")
     stopwords=f.read()
@@ -61,6 +64,8 @@ def most_common_word(selected_user,df):
     temp=df[df['users']!='Group Notification']
     temp=temp[temp['message']!='<Media omitted>\n']
     temp=temp[temp['message']!='null\n']
+    temp[temp['message']!='This message was deleted\n']
+    temp['message'] = [messages.split("<This message was edited>\n")[0] if "<This message was edited>" in messages else messages for messages in temp['message']]
     
     f=open('stop_hinglish.txt','r',encoding="utf-8")
     stopwords=f.read()
